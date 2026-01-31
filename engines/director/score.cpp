@@ -337,9 +337,6 @@ void Score::startPlay() {
 			_channels.push_back(new Channel(this, _currentFrame->_sprites[i], i));
 
 	updateSprites(kRenderForceUpdate, true);
-
-	_soundManager->disablePuppetSound(1);
-	_soundManager->disablePuppetSound(2);
 }
 
 void Score::step() {
@@ -773,7 +770,7 @@ void Score::update() {
 	bool sound1Changed = true;
 	bool sound2Changed = true;
 
-	if (!_firstRun) {
+	if (_version >= kFileVer600 && !_firstRun) {
 		// We check if the sound channels have changed, and only restart
 		// the sound if they have. Even if the sound was stopped
 		//

@@ -1,7 +1,24 @@
 For a more comprehensive changelog of the latest experimental code, see:
         https://github.com/scummvm/scummvm/commits/
 
-#### 3.0.0 (XXXX-XX-XX)
+#### 2026.1.1 (2026-XX-XX)
+
+ General:
+   - Improved PC-Speaker emulation.
+   - Implemented multiselect in the GUI launcher games list.
+
+ MM:
+   - Fixed M&M1 memory corruption on exit.
+   - Fixed M&M1 display issues/corruption getting items from treasure chests.
+   - Fixed M&M1 showing incorrect name for attacking monsters in combat.
+
+ WAGE:
+   - Implemented combat system.
+   - Numerous visual fixes.
+   - Implemented mouse scrolling of text window.
+
+
+#### 2026.1.0 "Like a version" (2026-01-31)
 
  New games:
    - Added support for Dark Seed.
@@ -26,10 +43,10 @@ For a more comprehensive changelog of the latest experimental code, see:
    - Added support for Adibou 2: Nature & Sciences.
    - Added support for WAGE-based game. More than 160 titles so far.
    - Added support for Penumbra: Overture.
-   - Added support for Tex Murphy: Martian Memorandum
+   - Added support for Tex Murphy: Martian Memorandum.
    - Added support for Mort&Phil: A Movie Adventure (Special Edition).
-   - Added support for Trick or Treat
-   - Added support for Hodj 'n' Podj
+   - Added support for Trick or Treat.
+   - Added support for Hodj 'n' Podj.
 
  Access:
    - Added keymapper support.
@@ -38,8 +55,13 @@ For a more comprehensive changelog of the latest experimental code, see:
  ADL:
    - Added Text-to-Speech support.
 
+ AGS:
+   - Updated detection tables.
+
  AGI:
    - Added Text-to-Speech support.
+   - Added support for SQ2 French translation.
+   - Added support for KQ1, KQ2, KQ3 Hebrew translations.
    - Fixed Mickey's Space Adventure sound on PS3, Wii, and other big-endian
      ports.
 
@@ -51,6 +73,9 @@ For a more comprehensive changelog of the latest experimental code, see:
 
  Cruise:
    - Added Text-to-Speech support.
+
+ Cryomni3D:
+   - Added support for Chinese DOS/Win95 Versailles CD version
 
  Draci:
    - Added Text-to-Speech support.
@@ -69,20 +94,32 @@ For a more comprehensive changelog of the latest experimental code, see:
 
  Freescape:
    - Added roll rotation to Driller and Dark Side.
+   - Added full TinyGL support for all the games.
+   - Fixed several small details across all the games including missing
+     graphics and sounds.
 
  Gob:
    - Added Text-to-Speech support.
 
+ Grim:
+  - Added support for the fantranslated Polish version of Grim Fandango.
+
  Hugo:
    - Added Text-to-Speech support.
+   - Fixed unrecognized commands, missing points, and graphics glitches
+     in the DOS version of Hugo 2.
+   - Fixed clicking to walk.
    - Fixed closing the top menu.
 
  Hypno:
    - Added keymapper support.
 
+ Illusions:
+   - Fixed a crash when triggering the game menu early in the game.
+
  Kyra:
-   - Reduce CPU usage in the LoL main menu.
-   - Reduce CPU usage in EoB 1 and 2.
+   - Reduced CPU usage in the LoL main menu.
+   - Reduced CPU usage in EoB 1 and 2.
    - Introduced new launcher checkbox in Eye of the Beholder 1 and 2,
      to enable smarter replacing of thrown weapons from inventory.
    - In Eye of the Beholder 1, Ileria and Beohram NPC data fix is now behind
@@ -100,6 +137,9 @@ For a more comprehensive changelog of the latest experimental code, see:
  MM:
    - Fixed protection from elements spell.
    - Added Text-to-Speech support.
+   - Fixed errors with M&M1 monster advancement in combat.
+   - Fixed doors color in M&M1 enhanced mode.
+   - Fixed rendering of M&M1 enhanced main menu circles.
 
  Mohawk:
    - Fixed popping noise in speech in some game releases (bug in the original).
@@ -114,6 +154,8 @@ For a more comprehensive changelog of the latest experimental code, see:
 
  NGI:
    - Added keymapper support.
+   - Fixed a crash when trying to open the game main menu several times in
+     a row.
 
  Nuvie:
    - Added "Transfer a Character" feature to main menu.
@@ -132,18 +174,32 @@ For a more comprehensive changelog of the latest experimental code, see:
    - Added keymapper support.
 
  Private:
+   - Added several important missing graphics and gameplay sounds,
+     the engine is now considered to be at feature parity with the original game.
+   - Fixed inaccessible places, missing interactions or conversations.
+   - Added option to highlight decision areas for improved visibility.
+   - Added support for third party subtitles.
+   - Added missing features and fixed crashes in the desktop screen.
+   - Fixed various graphics and cursor glitches.
    - Added keymapper support.
 
  Queen:
    - Added keymapper support.
 
  SCI:
-   - Fixed the palette in SLATER Mac.
-   - Fixed LSL6 temporary freeze after control panel.
-   - Fixed PEPPER spinning in Ben Franklin's workshop.
-   - Enabled extra LSL6 messages when clicking on Larry.
+   - Fixed PHANT1 losing save files. (ScummVM 2.9.0 bug)
+   - Fixed QFG4 v1.1/German lockup when entering cave at end of game.
+   - Fixed PQ2 PC-98 Japanese text not displaying on certain screens.
+   - Fixed KQ1 Amiga crash when incorrectly guessing gnome's name.
+   - Fixed LONGBOW Amiga crash when going to abbey.
+   - Fixed SQ4 Amiga taking three minutes to display title screen.
+   - Fixed PQ2 phone when dialing wrong numbers.
+   - Fixed script bugs in ECO1, LSL6, PEPPER.
+   - Added support for SLATER Macintosh.
    - Virtual keyboard now correctly triggers on/off wherever text input is
      needed.
+   - Inside the Chest and Behind the Developer's Shieled are now handled as
+     two separate demos, detected from the same set of files.
 
  SCUMM:
    - Added support for the classic SE variants of MI1, MI2, DOTT and FT.
@@ -174,8 +230,17 @@ For a more comprehensive changelog of the latest experimental code, see:
  Sherlock:
    - Added keymapper support.
 
+ Stark:
+   - The OpenGL renderer now works on older GPUs not supporting
+     non-power-of-two textures.
+
  Supernova:
    - Added keymapper support.
+
+ Sword1:
+   - Fixed harsh noise being played instead of the intended audio on PS3,
+     Wii, and other big-endian ports.
+   - Fixed some engine leaks that could lead to crashes in some situations.
 
  Sword25:
    - Added keymapper support.
@@ -196,8 +261,16 @@ For a more comprehensive changelog of the latest experimental code, see:
  Toltecs:
    - Added keymapper support.
 
+ Toon:
+   - Adjusted the speed of the Gift-O-Matic machine sequence, so that it better
+     matches the way it behaved on original hardware.
+
+ Touche:
+   - Fixed a crash when quitting the game while some speech was about to be
+     played.
+
  TwinE:
-   - Activate original bug fixes (FunFrock's HQ door and safe bugs).
+   - Activated original bug fixes (FunFrock's HQ door and safe bugs).
 
  V-Cruise:
    - Fixed text rendering in Chinese and Japanese localizations.
@@ -209,6 +282,56 @@ For a more comprehensive changelog of the latest experimental code, see:
  Wintermute:
    - 3D renderer enabled by default for 2D games.
    - Added Text-to-Speech support.
+   - Added support for several fan translations.
+
+ ZVision:
+   - Added support for widescreen displays
+   - Added high quality panorama option (uses bilinear filtering)
+   - Improved directionality of 3D sound
+   - Improved accuracy of volume scaling
+   - Enabled high performance audiovisual effects in Zork Nemesis
+   - Improved behaviour of draggable lever controls
+   - Fixed bug causing audio to cut out after long periods of continuous gameplay
+   - Fixed bug causing some audio not to play in certain locations after restoring a saved game
+   - Fixed bug causing music puzzles not to play all notes when using MT-32
+   - Fixed various gameplay script bugs in Nemesis and Grand Inquisitor
+
+ Desktop ports:
+   - Allow the user to disable manual resizing of the ScummVM window (using Ctrl+R).
+   - Add support for building with SDL3 (although SDL2 is still used by default).
+   - Add support for scaling shaders within 3D engines.
+   - Remove last remnants from the ResidualVM merge: the codebase is now fully unified.
+
+ Android port:
+   - Support Android 16.
+   - Add support for scaling shaders within 3D engines.
+   - Add support for antialiasing with 3D engines.
+   - Remove last remnants from the ResidualVM merge: the codebase is now fully unified.
+   - Take screen forbidden zones into account.
+   - Use Android networking code instead of libcurl: system HTTPS certificates are now used.
+   - Long-press on back button with latest Android versions is fixed.
+
+ Atari port:
+   - Unified paths for FreeMiNT and TOS in scummvm.cfg (better delete the old
+     config file).
+   - Added translation for longer than 8+3 .dat filenames.
+   - Fixed slow rendering of Eco Quest's intro.
+   - Fixed cursor rendering of Phantasmagoria, KQ7 and other SCI32 games.
+   - Increased stack size to 256k to avoid stack overflow in some engines (e.g.
+     Supernova).
+   - Fixed launching games from command line.
+
+ DS port:
+   - Migrate to latest devkitPRO SDK.
+
+ iOS port:
+   - Add support for scaling shaders within 3D engines.
+   - Add support for antialiasing with 3D engines.
+   - Remove last remnants from the ResidualVM merge: the codebase is now fully unified.
+   - Take screen forbidden zones into account.
+
+ PS3 port:
+   - Fixed crashes for games using a screen shaking effect.
 
 #### 2.9.1 "Slappin da BASS" (2025-05-25)
 

@@ -19,19 +19,38 @@
  *
  */
 
-#ifndef ULTIMA_ULTIMA0_RESOURCES_H
-#define ULTIMA_ULTIMA0_RESOURCES_H
+#ifndef DIRECTOR_LINGO_XTRAS_S_STAYTOONEDHIGH_H
+#define DIRECTOR_LINGO_XTRAS_S_STAYTOONEDHIGH_H
 
-#include "ultima/shared/engine/resources.h"
+namespace Director {
 
-namespace Ultima {
-namespace Ultima0 {
+class StayToonedHighXtraObject : public Object<StayToonedHighXtraObject> {
+public:
+	StayToonedHighXtraObject(ObjectType objType);
 
-class Resources : public Shared::LocalResourceFile {
-
+	bool hasProp(const Common::String &propName) override;
+	Datum getProp(const Common::String &propName) override;
 };
 
-} // End of namespace Ultima0
-} // End of namespace Ultima
+namespace StayToonedHighXtra {
+
+extern const char *xlibName;
+extern const XlibFileDesc fileNames[];
+
+void open(ObjectType type, const Common::Path &path);
+void close(ObjectType type);
+
+void m_new(int nargs);
+void m_mInitRandom(int nargs);
+void m_mInitGame(int nargs);
+void m_mInitLevel(int nargs);
+void m_mInitBall(int nargs);
+void m_mOPERATEGAME(int nargs);
+void m_mReturnData(int nargs);
+void m_mGactions(int nargs);
+
+} // End of namespace StayToonedHighXtra
+
+} // End of namespace Director
 
 #endif

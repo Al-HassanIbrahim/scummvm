@@ -1715,7 +1715,7 @@ void LB::b_open(int nargs) {
 	if (!debugChannelSet(-1, kDebugFewFramesOnly) &&
 		!(g_director->getGameGID() == GID_TEST || g_director->getGameGID() == GID_TESTALL)) {
 		Common::U32String message = Common::String::format("Unsupported command open encountered -> The movie tried to execute open %s %s!", ex.asString().c_str(), d.type != VOID ? d.asString().c_str() : "");
-		GUI::MessageDialog dialog(message, _("Ok"));
+		GUI::MessageDialog dialog(message);
 		dialog.runModal();
 	}
 }
@@ -1787,12 +1787,7 @@ void LB::b_openXlib(int nargs) {
 
 	xlibName = getFileName(d.asString());
 
-	// TODO: Figure out a nicer way of differentiating Xtras from XLibs on Mac
-	if (xlibName.hasSuffixIgnoreCase(".x16") || xlibName.hasSuffixIgnoreCase(".x32")) {
-		g_lingo->openXLib(xlibName, kXtraObj, xlibPath);
-	} else {
-		g_lingo->openXLib(xlibName, kXObj, xlibPath);
-	}
+	g_lingo->openXLib(xlibName, kNoneObj, xlibPath);
 }
 
 void LB::b_save(int nargs) {
@@ -2471,7 +2466,7 @@ void LB::b_alert(int nargs) {
 
 	if (!debugChannelSet(-1, kDebugFewFramesOnly)) {
 		g_director->_wm->clearHandlingWidgets();
-		GUI::MessageDialog dialog(alert.c_str(), _("OK"));
+		GUI::MessageDialog dialog(alert.c_str());
 		dialog.runModal();
 	}
 

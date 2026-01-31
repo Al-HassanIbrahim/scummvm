@@ -97,7 +97,7 @@ include $(srcdir)/Makefile.common
 ENGINE_SUBDIRS_CONFIGURE := $(wildcard $(srcdir)/engines/*/configure.engine)
 
 config.h:
-SAVED_ENV_VARS = AR AS ASFLAGS CPPFLAGS CXX CXXFLAGS LD LDFLAGS RANLIB SDL_CONFIG STRIP WINDRES WINDRESFLAGS
+SAVED_ENV_VARS = AR AS ASFLAGS CPPFLAGS CXX CXXFILT CXXFLAGS LD LDFLAGS NM RANLIB SDL_CONFIG STRIP WINDRES WINDRESFLAGS
 
 # The environment variable PKG_CONFIG_LIBDIR has a different meaning
 # for pkg-config when it is empty and when it is not defined.
@@ -155,3 +155,6 @@ CMakeLists.txt: devtools/create_project/cmake/build/create_project config.mk
 cmake: CMakeLists.txt
 	cmake -H. -Bbuild
 	cmake --build build
+
+test-games: $(EXECUTABLE)
+	devtools/run_event_recorder_tests.py --xunit-output=$(EXECUTABLE).test-results.xml

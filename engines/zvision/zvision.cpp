@@ -397,16 +397,8 @@ void ZVision::initializePath(const Common::FSNode &gamePath) {
 	// File Paths
 	const Common::FSNode gameDataDir(gamePath);
 	SearchMan.setIgnoreClashes(true);
-	SearchMan.addDirectory(gamePath, 0, 5, true);
-	SearchMan.addSubDirectoryMatching(gameDataDir, "FONTS");
 
-	// Ensure extras take first search priority
-	if (ConfMan.hasKey("extrapath")) {
-		Common::Path gameExtraPath = ConfMan.getPath("extrapath");
-		const Common::FSNode gameExtraDir(gameExtraPath);
-		SearchMan.addSubDirectoryMatching(gameExtraDir, "auxvid");
-		SearchMan.addSubDirectoryMatching(gameExtraDir, "auxscr");
-	}
+	SearchMan.addDirectory(gamePath, 0, 1, true);
 
 	// Ensure addons (game patches) take search priority over files listed in .zix files
 	SearchMan.addSubDirectoryMatching(gameDataDir, "addon");
@@ -420,12 +412,33 @@ void ZVision::initializePath(const Common::FSNode &gamePath) {
 
 	switch (getGameId()) {
 	case GID_GRANDINQUISITOR:
-		if (!_fileManager->loadZix("INQUIS.ZIX"))
+		break;
+	case GID_NEMESIS:
+		SearchMan.addSubDirectoriesMatching(gameDataDir, "znemscr", true); // Add directory that may contain .zix file in some versions of the game
+		break;
+	case GID_NONE:
+	default:
+		break;
+	}
+
+	SearchMan.addSubDirectoryMatching(gameDataDir, "FONTS");
+
+	// Ensure extras take first search priority
+	if (ConfMan.hasKey("extrapath")) {
+		Common::Path gameExtraPath = ConfMan.getPath("extrapath");
+		const Common::FSNode gameExtraDir(gameExtraPath);
+		SearchMan.addSubDirectoryMatching(gameExtraDir, "auxvid");
+		SearchMan.addSubDirectoryMatching(gameExtraDir, "auxscr");
+	}
+
+	switch (getGameId()) {
+	case GID_GRANDINQUISITOR:
+		if (!_fileManager->loadZix("INQUIS.ZIX", gameDataDir))
 			error("Unable to load file INQUIS.ZIX");
 		break;
 	case GID_NEMESIS:
-		if (!_fileManager->loadZix("NEMESIS.ZIX"))	// GOG version or used original game installer
-			if (!_fileManager->loadZix("MEDIUM.ZIX"))	// Manual installation from CD or ZGI DVD according to wiki.scummvm.org
+		if (!_fileManager->loadZix("NEMESIS.ZIX", gameDataDir))	// GOG version or used original game installer
+			if (!_fileManager->loadZix("MEDIUM.ZIX", gameDataDir))	// Manual installation from CD or ZGI DVD according to wiki.scummvm.org
 				error("Unable to load file NEMESIS.ZIX or MEDIUM.ZIX");
 		break;
 	case GID_NONE:

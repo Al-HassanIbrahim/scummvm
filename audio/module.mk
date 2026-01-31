@@ -3,6 +3,7 @@ MODULE := audio
 MODULE_OBJS := \
 	adlib.o \
 	adlib_ctmidi.o \
+	adlib_hmisos.o \
 	adlib_ms.o \
 	audiostream.o \
 	casio.o \
@@ -12,6 +13,7 @@ MODULE_OBJS := \
 	mac_plugin.o \
 	mididrv.o \
 	mididrv_ms.o \
+	midiparser_hmp.o \
 	midiparser_qt.o \
 	midiparser_smf.o \
 	midiparser_xmidi.o \

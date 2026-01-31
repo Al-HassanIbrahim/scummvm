@@ -27,6 +27,7 @@
 #include "m4/core/imath.h"
 #include "m4/fileio/extensions.h"
 #include "m4/vars.h"
+#include "m4/m4.h"
 
 namespace M4 {
 namespace Sound {
@@ -118,6 +119,9 @@ int32 Digi::play(const Common::String &name, uint channel, int32 vol, int32 trig
 	// Assure no prior sound for the channel is playing
 	stop(channel);
 
+	if (!loop)
+		g_engine->drawSubtitle(name);
+
 	// Load in the new sound
 	preload(name, false, room_num);
 	DigiEntry &entry = _sounds[name];
@@ -164,6 +168,7 @@ void Digi::stop(uint channel, bool calledFromUnload) {
 		_mixer->stopHandle(c._soundHandle);
 		c._trigger = -1;
 		c._name.clear();
+		g_engine->clearSubtitle();
 
 		if (!calledFromUnload) {
 			digi_unload(name);
@@ -199,14 +204,6 @@ bool Digi::play_state(int channel) const {
 
 void Digi::change_volume(int channel, int vol) {
 	_mixer->setChannelVolume(_channels[channel]._soundHandle, vol);
-}
-
-void Digi::set_overall_volume(int vol) {
-	_mixer->setVolumeForSoundType(Audio::Mixer::kPlainSoundType, vol);
-}
-
-int Digi::get_overall_volume() {
-	return _mixer->getVolumeForSoundType(Audio::Mixer::kPlainSoundType);
 }
 
 int32 Digi::ticks_to_play(const char *name, int roomNum) {
@@ -262,14 +259,6 @@ bool digi_play_state(int channel) {
 
 void digi_change_volume(int channel, int vol) {
 	_G(digi).change_volume(channel, vol);
-}
-
-void digi_set_overall_volume(int vol) {
-	_G(digi).set_overall_volume(vol);
-}
-
-int digi_get_overall_volume() {
-	return _G(digi).get_overall_volume();
 }
 
 int32 digi_ticks_to_play(const char *name, int roomNum) {

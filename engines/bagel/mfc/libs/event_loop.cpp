@@ -31,7 +31,7 @@ namespace Libs {
 
 #define FRAME_RATE 50
 
-void EventLoop::runEventLoop() {
+void EventLoop::runEventLoop(bool isModalDialog) {
 	MSG msg;
 
 	while (!shouldQuit() && !_activeWindows.empty()) {
@@ -43,7 +43,8 @@ void EventLoop::runEventLoop() {
 			break;
 
 		CWnd *mainWnd = GetActiveWindow();
-		if (msg.message != WM_NULL && mainWnd && !mainWnd->PreTranslateMessage(&msg)) {
+		if (msg.message != WM_NULL && mainWnd && !mainWnd->PreTranslateMessage(&msg) &&
+				(!isModalDialog || !mainWnd->IsDialogMessage(&msg))) {
 			TranslateMessage(&msg);
 			DispatchMessage(&msg);
 		}
@@ -51,7 +52,7 @@ void EventLoop::runEventLoop() {
 }
 
 void EventLoop::SetActiveWindow(CWnd *wnd) {
-	assert(_quitFlag == QUIT_NONE);
+	assert(!shouldQuit());
 	if (wnd == GetActiveWindow())
 		// Already the active window
 		return;
@@ -90,7 +91,7 @@ void EventLoop::PopActiveWindow() {
 
 void EventLoop::doModal(CWnd *wnd) {
 	SetActiveWindow(wnd);
-	runEventLoop();
+	runEventLoop(true);
 	if (GetActiveWindow() == wnd)
 		wnd->DestroyWindow();
 }
@@ -101,17 +102,7 @@ void EventLoop::checkMessages() {
 	if (_activeWindows.empty())
 		return;
 
-	if (isQuitting()) {
-		// If for some reason the previous messages added in handleQuit
-		// didn't close all the windows, keep closing the remaining top window
-		if (_messages.empty() && !_activeWindows.empty())
-			_messages.push(MSG(_activeWindows.top()->m_hWnd, WM_CLOSE, 0, 0));
-
-		if (_activeWindows.empty())
-			_quitFlag = QUIT_QUIT;
-		return;
-
-	} else if (_messages.empty() && _idleCtr >= 0) {
+	if (_messages.empty() && _idleCtr >= 0) {
 		if (!OnIdle(_idleCtr))
 			// OnIdle returning false means disabling permanently
 			_idleCtr = -1;
@@ -169,6 +160,12 @@ void EventLoop::checkMessages() {
 						MAKELPARAM(HTCLIENT, msg.message)
 					);
 			}
+		} else if (msg.message == WM_QUIT) {
+			// Add a window message close message as well
+			MSG cmsg;
+			cmsg.message = WM_CLOSE;
+			cmsg.hwnd = hWnd;
+			_messages.push(cmsg);
 		}
 	}
 
@@ -204,12 +201,14 @@ bool EventLoop::GetMessage(MSG &msg) {
 			}
 		} else if (msg.message != WM_QUIT) {
 			msg.message = WM_NULL;
+		} else {
+			debug(1, "Got WM_QUIT message..");
 		}
 	} else {
 		msg.message = WM_NULL;
 	}
 
-	return _quitFlag != QUIT_QUIT;
+	return !((msg.message == WM_QUIT) || (shouldQuit() && _messages.empty()));
 }
 
 void EventLoop::setMessageWnd(Common::Event &ev, HWND &hWnd) {
@@ -349,14 +348,14 @@ bool EventLoop::PeekMessage(LPMSG lpMsg, HWND hWnd,
 
 bool EventLoop::PostMessage(HWND hWnd, unsigned int Msg,
 		WPARAM wParam, LPARAM lParam) {
-	if (isQuitting())
+	if (shouldQuit())
 		return false;
 	if (!hWnd && Msg == WM_PARENTNOTIFY)
 		// Hodj minigame launched directly without metagame,
 		// so we can ignore the WM_PARENTNOTIFY on closure
 		return false;
 
-	assert((hWnd || Msg == WM_QUIT) && hWnd != (HWND)0xdddddddd);
+	assert(hWnd);
 	_messages.push(MSG(hWnd, Msg, wParam, lParam));
 	return true;
 }
@@ -375,36 +374,9 @@ void EventLoop::TranslateMessage(LPMSG lpMsg) {
 void EventLoop::DispatchMessage(LPMSG lpMsg) {
 	CWnd *wnd = CWnd::FromHandle(lpMsg->hwnd);
 
-	if (lpMsg->message == WM_QUIT) {
-		lpMsg->hwnd = nullptr;
-		handleQuit();
-	}
-
 	if (wnd) {
 		wnd->SendMessage(lpMsg->message,
 			lpMsg->wParam, lpMsg->lParam);
-	}
-}
-
-void EventLoop::handleQuit() {
-	_quitFlag = QUIT_QUITTING;
-
-	// For a shutdown, go backwards through the windows,
-	// and flag any open dialogs with a modal result
-	// so they close, and a WM_CLOSE to any non-dialogs
-	for (int i = _activeWindows.size() - 1; i >= 0; --i) {
-		CWnd *wnd = _activeWindows[i];
-		CDialog *d = dynamic_cast<CDialog *>(wnd);
-
-		if (d) {
-			d->_modalResult = -999;
-		} else {
-			MSG closeMsg;
-			closeMsg.hwnd = wnd->m_hWnd;
-			closeMsg.message = WM_CLOSE;
-
-			_messages.push(closeMsg);
-		}
 	}
 }
 
@@ -424,6 +396,14 @@ bool EventLoop::isJoystickMsg(const Common::Event &ev) const {
 	return ev.type == Common::EVENT_JOYAXIS_MOTION ||
 		ev.type == Common::EVENT_JOYBUTTON_DOWN ||
 		ev.type == Common::EVENT_JOYBUTTON_UP;
+}
+
+bool EventLoop::shouldQuit() const {
+	return g_engine->shouldQuit();
+}
+
+void EventLoop::quit() {
+	g_engine->quitGame();
 }
 
 void EventLoop::SetCapture(HWND hWnd) {

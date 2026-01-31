@@ -132,7 +132,12 @@ MODULE_OBJS = \
 	lingo/xlibs/m/movutils.o \
 	lingo/xlibs/m/msfile.o \
 	lingo/xlibs/m/mystisle.o \
+	lingo/xlibs/b/blockthedrawingxobj.o \
+	lingo/xlibs/m/mazexobj.o \
 	lingo/xlibs/o/openbleedwindowxcmd.o \
+ 	lingo/xlibs/p/playsoundmoviexobj.o \
+ 	lingo/xlibs/s/savenrestorexobj.o \
+ 	lingo/xlibs/t/temnotaxobj.o \
 	lingo/xlibs/o/orthoplayxobj.o \
 	lingo/xlibs/p/paco.o \
 	lingo/xlibs/p/palxobj.o \
@@ -191,6 +196,12 @@ MODULE_OBJS = \
 	lingo/xtras/rtk.o \
 	lingo/xtras/scrnutil.o \
 	lingo/xtras/s/smacker.o \
+	lingo/xtras/s/staytoonedhall.o \
+	lingo/xtras/s/staytoonedball.o \
+	lingo/xtras/s/staytoonedglop.o \
+	lingo/xtras/s/staytoonedhigh.o \
+	lingo/xtras/s/staytoonedober.o \
+	lingo/xtras/s/staytoonedtoon.o \
 	lingo/xtras/timextra.o \
 	lingo/xtras/xsound.o
 

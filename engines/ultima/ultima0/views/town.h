@@ -19,15 +19,36 @@
  *
  */
 
-#include "ultima/ultima0/game.h"
+#ifndef ULTIMA0_VIEWS_TOWN_H
+#define ULTIMA0_VIEWS_TOWN_H
+
+#include "ultima/ultima0/views/info.h"
+#include "ultima/ultima0/data/data.h"
 
 namespace Ultima {
 namespace Ultima0 {
+namespace Views {
 
-EMPTY_MESSAGE_MAP(Ultima0Game, Shared::Game);
+class Town : public Info {
+private:
+	Common::String _message;
 
-Ultima0Game::Ultima0Game() : Shared::Game() {
-}
+protected:
+	void selectObject(int item) override;
+	void leave() override;
 
-} // End of namespace Ultima0
-} // End of namespace Ultima
+public:
+	Town();
+	~Town() override {}
+
+	bool msgFocus(const FocusMessage &msg) override;
+	bool msgUnfocus(const UnfocusMessage &msg) override;
+	void draw() override;
+	void timeout() override;
+};
+
+} // namespace Views
+} // namespace Ultima0
+} // namespace Ultima
+
+#endif

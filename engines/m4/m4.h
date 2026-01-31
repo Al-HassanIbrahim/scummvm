@@ -37,6 +37,7 @@
 #include "m4/detection.h"
 #include "m4/vars.h"
 #include "m4/core/rooms.h"
+#include "m4/subtitles.h"
 
 namespace M4 {
 
@@ -46,6 +47,7 @@ class M4Engine : public Engine, public Sections {
 private:
 	const M4GameDescription *_gameDescription;
 	Common::RandomSource _randomSource;
+	M4Subtitles _subtitles;
 
 	/**
 	 * Main game loop
@@ -74,9 +76,11 @@ protected:
 	 */
 	virtual void setupConsole() = 0;
 
+	void pauseEngineIntern(bool pause) override;
+
 public:
 	M4Engine(OSystem *syst, const M4GameDescription *gameDesc);
-	~M4Engine() override;
+	~M4Engine() override = default;
 
 	uint32 getFeatures() const;
 
@@ -180,6 +184,18 @@ public:
 	 * Show the engine information
 	 */
 	virtual void showEngineInfo() = 0;
+
+	void drawSubtitle(const Common::String &soundId) const {
+		_subtitles.drawSubtitle(soundId);
+	}
+
+	void clearSubtitle() const {
+		_subtitles.clearSubtitle();
+	}
+
+	void updateSubtitleOverlay() const {
+		_subtitles.updateSubtitleOverlay();
+	}
 };
 
 extern M4Engine *g_engine;

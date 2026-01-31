@@ -1,3 +1,4 @@
+
 /* ScummVM - Graphic Adventure Engine
  *
  * ScummVM is the legal property of its developers, whose names
@@ -19,8 +20,30 @@
  *
  */
 
-#include "ultima/ultima0/core/resources.h"
+#ifndef ULTIMA_ULTIMA0_CONSOLE_H
+#define ULTIMA_ULTIMA0_CONSOLE_H
+
+#include "gui/debugger.h"
 
 namespace Ultima {
+namespace Ultima0 {
 
-} // End of namespace Ultima
+class Console : public GUI::Debugger {
+private:
+	bool cmdView(int argc, const char **argv);
+	bool cmdFood(int argc, const char **argv);
+	bool cmdGold(int argc, const char **argv);
+	bool cmdHP(int argc, const char **argv);
+	bool cmdDemo(int argc, const char **argv);
+	bool cmdDebug(int argc, const char **argv);
+	bool cmdMonster(int argc, const char **argv);
+
+public:
+	Console();
+	~Console() override;
+};
+
+} // namespace Ultima0
+} // namespace Ultima
+
+#endif

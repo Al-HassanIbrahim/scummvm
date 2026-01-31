@@ -184,7 +184,7 @@ bool World::loadWorld(Common::MacResManager *resMan) {
 	} else {
 		_saveBeforeQuitMessage = new Common::String("Save changes before quiting?");
 	}
-	if ((message = loadStringFromDITL(resMan, 2490, 3)) != NULL) {
+	if ((message = loadStringFromDITL(resMan, 2490, 3)) != NULL && !message->empty()) {
 		message->trim();
 		debug(2, "_saveBeforeCloseMessage: %s", message->c_str());
 		_saveBeforeCloseMessage = message;
@@ -366,8 +366,8 @@ bool World::loadWorld(Common::MacResManager *resMan) {
 	if (res != NULL) {
 		Common::StringArray *menu = Graphics::MacMenu::readMenuFromResource(res);
 		_commandsMenuName = menu->operator[](0);
-		_commandsMenu = menu->operator[](1);
-
+		_commandsMenuDefault = menu->operator[](1);
+		_commandsMenu = _commandsMenuDefault;
 		debugC(1, kDebugLoading, "MENU: Commands name: %s", toPrintable(_commandsMenuName).c_str());
 		debugC(1, kDebugLoading, "MENU: Commands menu: %s", toPrintable(_commandsMenu).c_str());
 

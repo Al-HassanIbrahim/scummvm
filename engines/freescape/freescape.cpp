@@ -787,7 +787,6 @@ Common::Error FreescapeEngine::run() {
 	//_screenH = g_system->getHeight();
 	_gfx = createRenderer(_screenW, _screenH, _renderMode, ConfMan.getBool("authentic_graphics"));
 	_speaker = new SizedPCSpeaker();
-	_speaker->setVolume(50);
 	_crossairPosition.x = _screenW / 2;
 	_crossairPosition.y = _screenH / 2;
 
@@ -1283,12 +1282,14 @@ void FreescapeEngine::removeTimers() {
 }
 
 void FreescapeEngine::pauseEngineIntern(bool pause) {
-	drawFrame();
-	if (_savedScreen) {
-		_savedScreen->free();
-		delete _savedScreen;
+	if (_currentArea) {
+		drawFrame();
+		if (_savedScreen) {
+			_savedScreen->free();
+			delete _savedScreen;
+		}
+		_savedScreen = _gfx->getScreenshot();
 	}
-	_savedScreen = _gfx->getScreenshot();
 
 	Engine::pauseEngineIntern(pause);
 

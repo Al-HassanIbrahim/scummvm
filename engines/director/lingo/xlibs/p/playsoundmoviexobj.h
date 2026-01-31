@@ -19,24 +19,32 @@
  *
  */
 
-#ifndef ULTIMA_ULTIMA0_GAME_H
-#define ULTIMA_ULTIMA0_GAME_H
+#ifndef DIRECTOR_LINGO_XLIBS_P_PLAYSOUNDMOVIEXOBJ_H
+#define DIRECTOR_LINGO_XLIBS_P_PLAYSOUNDMOVIEXOBJ_H
 
-#include "ultima/shared/early/game.h"
+namespace Director {
 
-namespace Ultima {
-namespace Ultima0 {
-
-class Ultima0Game : public Shared::Game {
-	DECLARE_MESSAGE_MAP;
+class PlaySoundMovieXObject : public Object<PlaySoundMovieXObject> {
 public:
-	CLASSDEF;
-	Ultima0Game();
-	~Ultima0Game() override {}
-
+	PlaySoundMovieXObject(ObjectType objType);
 };
 
-} // End of namespace Ultima0
-} // End of namespace Ultima
+namespace PlaySoundMovieXObj {
+
+extern const char *xlibName;
+extern const XlibFileDesc fileNames[];
+
+void open(ObjectType type, const Common::Path &path);
+void close(ObjectType type);
+
+void m_new(int nargs);
+void m_movieOpen(int nargs);
+void m_movieIdle(int nargs);
+void m_movieSetVolume(int nargs);
+void m_movieStop(int nargs);
+
+} // End of namespace PlaySoundMovieXObj
+
+} // End of namespace Director
 
 #endif
